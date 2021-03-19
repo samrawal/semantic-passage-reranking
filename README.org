@@ -28,7 +28,7 @@ sentences = [
 
 model_path = "nboost/pt-tinybert-msmarco"
 rerank = Rerank(model_path)
-results = rerank.rerank(query, sentences, top_n=3)
+results = rerank.rerank(query, sentences, topn=3)
 #+END_SRC
 
 * Requirements
