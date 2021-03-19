@@ -105,7 +105,7 @@ class Rerank:
         dataset = self.tokenize(query, sentences)
         preds, out_label_ids = None, None
         eval_sampler = SequentialSampler(dataset)
-        eval_dataloader = DataLoader(dataset, sampler=eval_sampler, batch_size=32)
+        eval_dataloader = DataLoader(dataset, sampler=eval_sampler, batch_size=16)
         if self.device is None:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
