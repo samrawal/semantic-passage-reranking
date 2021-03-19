@@ -1,0 +1,38 @@
+* 🧱 passage-reranking-transformers
+Off-the-shelf sentence/passage ranking via Transformers.
+
+- *Inputs:* Query and list of sentences/paragraphs.
+- *Outputs:* List of ranked sentences/paragraphs, in order of predicted relevance to query.
+  
+Several finetuned Passage Reranking models (trained on MSMARCO dataset) are available online:
+- Use directly from HuggingFace Model Hub: [[https://huggingface.co/nboost/pt-tinybert-msmarco][nboost/pt-tinybert-msmarco]], [[https://huggingface.co/amberoad/bert-multilingual-passage-reranking-msmarco][amberoad/bert-multilingual-passage-reranking-msmarco]]
+- Use a local model, like [[https://github.com/nyu-dl/dl4marco-bert][nyu-dl/dl4marco-bert]] (will need to convert into PyTorch format)
+  
+Much of the code adapted from the [[https://github.com/huggingface/transformers][HuggingFace Transformers repo]].
+
+* Quickstart
+Download =rerank.py=.
+
+#+BEGIN_SRC python
+from rerank import Rerank
+
+query = "How do plants make food?"
+sentences = [
+    "All living things need food and energy to survive",
+    "Plants make food and produce oxygen through photosynthesis",
+    "The foodmaking and energy process for plants to survive is called photosynthesis",
+    "The process is complex but with the sun, water, nutrients from the soil, oxygen, and chlorophyll, a plant makes its own food in order to survive",
+    "Chlorophyll is a green chemical inside a plant that allows plants to use the Sun's energy to make food",
+]
+
+
+model_path = "nboost/pt-tinybert-msmarco"
+rerank = Rerank(model_path)
+results = rerank.rerank(query, sentences, top_n=3)
+#+END_SRC
+
+* Requirements
+- =torch=
+- =numpy=
+- =transformers=
+- =tqdm=
