@@ -101,7 +101,7 @@ class Rerank:
         )
         return dataset
 
-    def inference(self, query, sentences):
+    def inference(self, query, sentences, do_softmax=False):
         dataset = self.tokenize(query, sentences)
         preds, out_label_ids = None, None
         eval_sampler = SequentialSampler(dataset)
@@ -133,8 +133,9 @@ class Rerank:
                 out_label_ids = np.append(
                     out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0
                 )
-        s = torch.nn.Softmax(dim=1)  # just to make it easier to predict
-        preds = s(torch.tensor(preds))
+        if do_softmax:
+            s = torch.nn.Softmax(dim=1)  # just to make it easier to predict
+            preds = s(torch.tensor(preds))
         return preds
 
     def rerank(self, query: str, sentences: list, topn=5):
